@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Jeu du Pendu</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <!-- ==================== ÉCRAN 2 : JEU (ouvert par le bouton Lancer de menu.html) ==================== -->
+        <section id="jeu">
+            <div id="contenu">
+                <!-- ----- Barre du haut : erreurs, chrono, restart ----- -->
+                <div id="barre">
+                    <div class="pastille">
+                        Erreurs <strong id="erreurs">0/6</strong>
+                    </div>
+                    <div class="pastille">
+                        <strong id="chrono">0:00</strong>
+                    </div>
+                    <!-- En fin de partie, le texte de ce bouton devient "Nouvelle partie" -->
+                    <button id="btn-restart" class="bouton bouton-rouge">
+                        Restart
+                    </button>
+                </div>
+
+                <!-- ----- Carte du haut : pendu + mot ----- -->
+                <div class="carte">
+                    <!-- Le pendu (dessin SVG). La potence est toujours visible.
+                     Chaque partie du corps a la classe "cache" : elle est invisible.
+                     À chaque erreur, on enlève "cache" de la partie suivante.
+                     Remplacez ce dessin provisoire par le vôtre. -->
+                    <div id="pendu">
+                        <svg
+                            viewBox="0 0 160 200"
+                            fill="none"
+                            stroke="#334155"
+                            stroke-width="5"
+                            stroke-linecap="round"
+                        >
+                            <path d="M20 188 H80 M50 188 V20 H105 V45" />
+                            <circle class="cache" cx="105" cy="58" r="13" />
+                            <!-- 1. tête -->
+                            <line
+                                class="cache"
+                                x1="105"
+                                y1="71"
+                                x2="105"
+                                y2="120"
+                            />
+                            <!-- 2. corps -->
+                            <line
+                                class="cache"
+                                x1="105"
+                                y1="85"
+                                x2="88"
+                                y2="102"
+                            />
+                            <!-- 3. bras gauche -->
+                            <line
+                                class="cache"
+                                x1="105"
+                                y1="85"
+                                x2="122"
+                                y2="102"
+                            />
+                            <!-- 4. bras droit -->
+                            <line
+                                class="cache"
+                                x1="105"
+                                y1="120"
+                                x2="90"
+                                y2="148"
+                            />
+                            <!-- 5. jambe gauche -->
+                            <line
+                                class="cache"
+                                x1="105"
+                                y1="120"
+                                x2="120"
+                                y2="148"
+                            />
+                            <!-- 6. jambe droite -->
+                        </svg>
+                    </div>
+
+                    <!-- Le mot à deviner : une case par lettre.
+                     Lettre trouvée : remplacer "_" par la lettre et ajouter la classe "trouvee".
+                     Tiret d'un mot composé : <span class="case tiret">-</span> -->
+                    <div id="mot">
+                        <span class="case">_</span>
+                        <span class="case">_</span>
+                        <span class="case">_</span>
+                        <span class="case">_</span>
+                        <span class="case">_</span>
+                        <span class="case">_</span>
+                        <span class="case">_</span>
+                    </div>
+
+                    <!-- Résultat : invisible tant que la classe "cache" est présente.
+                     Pour voir le rendu, supprimez "cache" sur la ligne voulue. -->
+                    <p class="resultat vert cache">Victoire !</p>
+                    <p class="resultat rouge cache">Défaite</p>
+
+                    <p class="info">
+                        Lettres révélées : <span id="revelees">0/7</span>
+                    </p>
+                </div>
+
+                <!-- ----- Carte du bas : clavier virtuel (AZERTY) -----
+                 Après un clic sur une lettre : ajouter la classe "juste" (vert) ou "faux" (rouge)
+                 Exemple : <button class="touche juste">E</button> -->
+                <div class="carte">
+                    <div class="rangee">
+                        <button class="touche">A</button>
+                        <button class="touche">Z</button>
+                        <button class="touche">E</button>
+                        <button class="touche">R</button>
+                        <button class="touche">T</button>
+                        <button class="touche">Y</button>
+                        <button class="touche">U</button>
+                        <button class="touche">I</button>
+                        <button class="touche">O</button>
+                        <button class="touche">P</button>
+                    </div>
+                    <div class="rangee">
+                        <button class="touche">Q</button>
+                        <button class="touche">S</button>
+                        <button class="touche">D</button>
+                        <button class="touche">F</button>
+                        <button class="touche">G</button>
+                        <button class="touche">H</button>
+                        <button class="touche">J</button>
+                        <button class="touche">K</button>
+                        <button class="touche">L</button>
+                        <button class="touche">M</button>
+                    </div>
+                    <div class="rangee">
+                        <button class="touche">W</button>
+                        <button class="touche">X</button>
+                        <button class="touche">C</button>
+                        <button class="touche">V</button>
+                        <button class="touche">B</button>
+                        <button class="touche" style="background-color: blue">
+                            N
+                        </button>
+                    </div>
+                    <p class="info">
+                        💡 Cliquez ou tapez directement sur votre clavier.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </body>
+
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="game.js" defer></script>
+</html>
