@@ -1,3 +1,2 @@
 eel
 pyinstaller
-watchdog

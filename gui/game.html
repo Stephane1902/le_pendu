@@ -1,36 +1,25 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Jeu du Pendu</title>
-        <link rel="stylesheet" href="style.css" />
+        <title>Hangman Game !</title>
+        <link rel="stylesheet" href="/static/style.css" />
     </head>
 
     <body>
-        <!-- ==================== ÉCRAN 2 : JEU (ouvert par le bouton Lancer de menu.html) ==================== -->
         <section id="jeu">
             <div id="contenu">
-                <!-- ----- Barre du haut : erreurs, chrono, restart ----- -->
                 <div id="barre">
                     <div class="pastille">
-                        Erreurs <strong id="erreurs">0/6</strong>
+                        Error(s)
+                        <strong id="erreurs">
+                            <span id="error-count">0</span>/<span>6</span>
+                        </strong>
                     </div>
-                    <div class="pastille">
-                        <strong id="chrono">0:00</strong>
-                    </div>
-                    <!-- En fin de partie, le texte de ce bouton devient "Nouvelle partie" -->
-                    <button id="btn-restart" class="bouton bouton-rouge">
-                        Restart
-                    </button>
                 </div>
 
-                <!-- ----- Carte du haut : pendu + mot ----- -->
                 <div class="carte">
-                    <!-- Le pendu (dessin SVG). La potence est toujours visible.
-                     Chaque partie du corps a la classe "cache" : elle est invisible.
-                     À chaque erreur, on enlève "cache" de la partie suivante.
-                     Remplacez ce dessin provisoire par le vôtre. -->
                     <div id="pendu">
                         <svg
                             viewBox="0 0 160 200"
@@ -40,77 +29,66 @@
                             stroke-linecap="round"
                         >
                             <path d="M20 188 H80 M50 188 V20 H105 V45" />
-                            <circle class="cache" cx="105" cy="58" r="13" />
-                            <!-- 1. tête -->
+                            <circle
+                                class="hidden"
+                                cx="105"
+                                cy="58"
+                                r="13"
+                                id="hangman-head"
+                            />
                             <line
-                                class="cache"
+                                class="hidden"
                                 x1="105"
                                 y1="71"
                                 x2="105"
                                 y2="120"
+                                id="hangman-body"
                             />
-                            <!-- 2. corps -->
                             <line
-                                class="cache"
+                                class="hidden"
                                 x1="105"
                                 y1="85"
                                 x2="88"
                                 y2="102"
+                                id="hangman-left-arm"
                             />
-                            <!-- 3. bras gauche -->
                             <line
-                                class="cache"
+                                class="hidden"
                                 x1="105"
                                 y1="85"
                                 x2="122"
                                 y2="102"
+                                id="hangman-right-arm"
                             />
-                            <!-- 4. bras droit -->
                             <line
-                                class="cache"
+                                class="hidden"
                                 x1="105"
                                 y1="120"
                                 x2="90"
                                 y2="148"
+                                id="hangman-left-leg"
                             />
-                            <!-- 5. jambe gauche -->
                             <line
-                                class="cache"
+                                class="hidden"
                                 x1="105"
                                 y1="120"
                                 x2="120"
                                 y2="148"
+                                id="hangman-right-leg"
                             />
-                            <!-- 6. jambe droite -->
                         </svg>
                     </div>
 
-                    <!-- Le mot à deviner : une case par lettre.
-                     Lettre trouvée : remplacer "_" par la lettre et ajouter la classe "trouvee".
-                     Tiret d'un mot composé : <span class="case tiret">-</span> -->
-                    <div id="mot">
-                        <span class="case">_</span>
-                        <span class="case">_</span>
-                        <span class="case">_</span>
-                        <span class="case">_</span>
-                        <span class="case">_</span>
-                        <span class="case">_</span>
-                        <span class="case">_</span>
-                    </div>
+                    <div id="word-to-guess"></div>
 
-                    <!-- Résultat : invisible tant que la classe "cache" est présente.
-                     Pour voir le rendu, supprimez "cache" sur la ligne voulue. -->
-                    <p class="resultat vert cache">Victoire !</p>
-                    <p class="resultat rouge cache">Défaite</p>
-
-                    <p class="info">
-                        Lettres révélées : <span id="revelees">0/7</span>
+                    <p class="resultat vert hidden" id="victory-message">
+                        Victory !
+                    </p>
+                    <p class="resultat rouge hidden" id="defeat-message">
+                        Too bad !
                     </p>
                 </div>
 
-                <!-- ----- Carte du bas : clavier virtuel (AZERTY) -----
-                 Après un clic sur une lettre : ajouter la classe "juste" (vert) ou "faux" (rouge)
-                 Exemple : <button class="touche juste">E</button> -->
                 <div class="carte">
                     <div class="rangee">
                         <button class="touche">A</button>
@@ -142,18 +120,13 @@
                         <button class="touche">C</button>
                         <button class="touche">V</button>
                         <button class="touche">B</button>
-                        <button class="touche" style="background-color: blue">
-                            N
-                        </button>
+                        <button class="touche">N</button>
                     </div>
-                    <p class="info">
-                        💡 Cliquez ou tapez directement sur votre clavier.
-                    </p>
                 </div>
             </div>
         </section>
     </body>
 
     <script type="text/javascript" src="/eel.js"></script>
-    <script src="game.js" defer></script>
+    <script src="/scripts/game.js" defer></script>
 </html>
