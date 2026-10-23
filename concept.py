@@ -54,25 +54,39 @@ HANGMANPICS = [r'''
 hidden_word = "Snake"                           # Mot à deviner.
 hidden_word_lower = hidden_word.lower()         # Mot à deviner en minuscule.
 guess_random_word = ["*"] * len(hidden_word)    # Mot affiché au joueur, remplacé par des * pour ne pas le révéler.
-life_number = 6
+MAX_NUMBER_LIFE = 6
+life_number = MAX_NUMBER_LIFE
+tried_letters = []
 
 # La boucle de jeu.
 while True:
-    print("The word to find is:", "".join(guess_random_word), "and your number of lives is:", life_number)  # Affiche le mot masqué et les vies restantes.
+    print("The word to find is:", "".join(guess_random_word), "and your number of lives is:", life_number, "| Letters tried:", ", ".join(tried_letters))  # Affiche le mot masqué, les vies restantes et les lettres déjà renseignées.
+
 
     # Renseigner une lettre.
     guess_letter = ""
     while len(guess_letter) != 1 or not guess_letter.isalpha(): # Autorise uniquement la saisie d'une lettre, et bloque la saisie de chiffre et de caractère spéciaux.
         guess_letter = input("Enter a letter: ").lower()        # Lettre mise en minuscule, normalisé avec le mot mis en minuscule.
 
-    if guess_letter in hidden_word_lower:               # Compare si la lettre est dans le mot à deviner.
+
+    # Empêche de renseigner 2 fois la même lettre
+    if guess_letter in tried_letters:
+        print("Letter already tried!")                  # Prévient le joueur.
+        continue                                        # Recommence le tour sans perdre de vie.
+    tried_letters.append(guess_letter)                  # Mémorise la lettre.
+
+
+    # Compare si la lettre est dans le mot à deviner.
+    if guess_letter in hidden_word_lower:
         for i, char in enumerate(hidden_word_lower):    # Parcourt les lettres du mot à deviner.
             if char == guess_letter:                    # Si la lettre renseignée correspond à/aux lettres du mot à deviner.
                 guess_random_word[i] = guess_letter     # Remplace le * par la lettre du mot.
     else:
         life_number -= 1
 
-    print(HANGMANPICS[6 - life_number])                 # Fait apparaitre le pendu, en fonction de l'état de la partie.
+
+    print(HANGMANPICS[MAX_NUMBER_LIFE - life_number])                 # Fait apparaitre le pendu, en fonction de l'état de la partie.
+
 
     # Condition de Victoire/Défaite
     if hidden_word_lower == "".join(guess_random_word): # Si le joueur renseigne toutes les lettres, le joueur gagne.
